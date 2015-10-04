@@ -7,10 +7,10 @@ python:
 
 # command to install dependencies
 install:
-  - "pip3 install pytest"
-  - "pip3 install pytest-cov"
-  - "pip3 install coveralls"
-  - "pip3 install ."
+  - "pip install pytest"
+  - "pip install pytest-cov"
+  - "pip install coveralls"
+  - "pip install ."
 
 
 # command to run tests
