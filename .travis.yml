@@ -1,0 +1,35 @@
+sudo: false
+language: python
+python:
+  - "3.5"
+  - "3.4"
+  - "2.7"
+
+# command to install dependencies
+install:
+  - "pip3 install pytest"
+  - "pip3 install pytest-cov"
+  - "pip3 install coveralls"
+  - "pip3 install ."
+
+
+# command to run tests
+script:
+  - coverage run --source callerframe `which py.test`
+
+after_success:
+  - coveralls --rcfile=.coveragerc
+
+# notifications:
+notifications:
+  email:
+    recipients:
+      - simone.campagna11@gmail.com
+    on_success: change
+    on_failure: always
+
+# branches:
+branches:
+  only:
+    - master
+
