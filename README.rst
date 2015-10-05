@@ -8,7 +8,7 @@ decorated function.
     :target: https://travis-ci.org/simone-campagna/callerframe
     :alt: Build status
 
-.. image:: https://readthedocs.org/projects/callerframe?version=latest
+.. image:: https://readthedocs.org/projects/callerframe/badge/?version=latest
     :target: https://readthedocs.org/projects/callerframe?badge=latest
     :alt: Documentation status
 
