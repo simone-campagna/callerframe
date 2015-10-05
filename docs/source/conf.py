@@ -17,6 +17,7 @@ import sys
 import os
 import shlex
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 import callerframe
 
 # The full version, including alpha/beta/rc tags.
