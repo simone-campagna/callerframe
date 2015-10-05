@@ -16,46 +16,86 @@
 #
 
 """
-Python decorator adding a __caller_frame__ attribute to function's globals.
+The callerframe decorator adds a <__caller_frame__> global attribute to the
+decorated function's globals; this attribute refers to the caller's frame
+information:
 
 >>> @callerframe
-... def foo():
-...     frame, filename, line_number, function_name, context, index = __caller_frame__
-...     return function_name
+... def log(kind, message):
+...     print("{}: function {}: {}".format(kind, __caller_frame__.function_name, message))
 ...
->>> def fun0():
+>>> def foo():
+...     log("error", "lost connection")
+...
+>>> def main():
 ...     return foo()
 ...
->>> def fun1():
-...     return fun0()
-...
->>> fun1()
-'fun0'
+>>> main()
+error: function foo: lost connection
 
-In the following example fun2 is also decorated with caller frame; in this case,
-when called through fun2() -> fun0() -> foo(), the caller frame in foo will be
-the caller frame of fun2:
+The log function receives information about it's direct caller; but what if we want
+to have an error() function based on log()?
+
+>>> def error(message):
+...     log("error", message)
+...
+>>> def foo():
+...     error("lost connection")
+...
+>>> def main():
+...     return foo()
+...
+>>> main()
+error: function error: lost connection
+
+This is correct, since error() is the direct caller of the log() function; but we would
+like to show the information about the error's caller instead. In this case it is possible
+to decorate error() too:
 
 >>> @callerframe
-... def fun2():
-...     return fun0()
+... def error(message):
+...     log("error", message)
 ...
->>> def fun3():
-...     return fun2()
+>>> def foo():
+...     error("lost connection")
 ...
->>> fun3()
-'fun3'
+>>> def main():
+...     return foo()
+...
+>>> main()
+error: function foo: lost connection
+
+In other words, the first decorated function found in the call stack sets the
+caller information.
+
+The attribute name can be choosen:
+
+>>> @callerframe("CALLERFRAME")
+... def show_caller():
+...     print(CALLERFRAME.function_name)
+...
+>>> def foo():
+...     show_caller()
+...
+>>> foo()
+foo
 
 """
 
 __all__ = [
+    'FrameInfo',
     'callerframe',
 ]
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
+import collections
 import contextlib
 import functools
 import inspect
+
+
+FrameInfo = collections.namedtuple("FrameInfo", ("frame", "filename", "line_number",
+                                                 "function_name", "context", "index"))
 
 
 class DecoratorMaker(object):  # pylint: disable=too-few-public-methods
@@ -92,7 +132,7 @@ def _update_globals(glb, frame, depth, attr_name):
     """
     remove = False
     if glb.get(attr_name) is None:
-        glb[attr_name] = inspect.getouterframes(frame)[depth]
+        glb[attr_name] = FrameInfo(*inspect.getouterframes(frame)[depth])
         remove = True
     yield glb
     if remove:

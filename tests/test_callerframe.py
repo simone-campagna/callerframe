@@ -5,11 +5,23 @@ import pytest
 
 from callerframe import callerframe
 
-
 @callerframe
 def fun0():
     return __caller_frame__
 
+def test_no_globals():
+    assert '__caller_frame__' not in globals()
+    fun0()
+    assert '__caller_frame__' not in globals()
+
+def test_no_globals_1():
+    @callerframe
+    def funX():
+        return __caller_frame__
+    assert '__caller_frame__' not in globals()
+    funX()
+    assert '__caller_frame__' not in globals()
+    
 def caller0_0():
     return fun0()
 
