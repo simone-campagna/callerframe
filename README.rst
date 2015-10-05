@@ -12,7 +12,7 @@ decorated function.
     :target: https://readthedocs.org/projects/callerframe?badge=latest
     :alt: Documentation status
 
-.. image:: https://coveralls.io/repos/simone-campagna/callerframe.svg?branch=master&service=github
+.. image:: https://coveralls.io/repos/simone-campagna/callerframe/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/simone-campagna/callerframe?branch=master
     :alt: Coverage report
 
