@@ -56,7 +56,7 @@ if __name__ == "__main__":
             scripts.append(filepath)
     
     # search packages
-    root_packages = ['callerframe']
+    root_packages = []
     packages = []
     for package in root_packages:
         package_dirname = os.path.join(DIRNAME, package)
@@ -93,6 +93,7 @@ if __name__ == "__main__":
         download_url = 'https://github.com/simone-campagna/callerframe/archive/{}.tar.gz'.format(version),
         packages=packages,
         scripts=scripts,
+        py_modules=['callerframe'],
         classifiers=[
             # status:
             #   3 - Alpha
