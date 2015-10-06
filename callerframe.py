@@ -17,8 +17,15 @@
 
 """
 The callerframe decorator adds a <__caller_frame__> global attribute to the
-decorated function's globals; this attribute refers to the caller's frame
-information:
+decorated function's globals; this attribute refers to a FrameInfo object
+containing information about the caller function:
+
+ * frame: the caller's frame;
+ * filename: the name of the file where the function has been called;
+ * line_number: the line number of the call in <filename>;
+ * function_name: the name of the caller function;
+ * context: a list of source line containing the call;
+ * index: the index of the line in <context> where the function has been called.
 
 >>> @callerframe
 ... def log(kind, message):
@@ -48,9 +55,9 @@ to have an error() function based on log()?
 >>> main()
 error: function error: lost connection
 
-This is correct, since error() is the direct caller of the log() function; but we would
-like to show the information about the error's caller instead. In this case it is possible
-to decorate error() too:
+This is correct, since error() is the direct caller of the log() function;
+nevertheless we would like to show the information about the error()'s caller
+instead. In this case it is possible to decorate error() too:
 
 >>> @callerframe
 ... def error(message):
@@ -66,9 +73,10 @@ to decorate error() too:
 error: function foo: lost connection
 
 In other words, the first decorated function found in the call stack sets the
-caller information.
+caller information. This information is not overwritten by nested calls to
+decorated functions.
 
-The attribute name can be choosen:
+The attribute name, by default __caller_frame__, can be choosen:
 
 >>> @callerframe("CALLERFRAME")
 ... def show_caller():
@@ -86,7 +94,7 @@ __all__ = [
     'FrameInfo',
     'callerframe',
 ]
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 import collections
 import contextlib
