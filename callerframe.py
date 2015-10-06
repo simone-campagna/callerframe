@@ -16,16 +16,16 @@
 #
 
 """
-The callerframe decorator adds a <__caller_frame__> global attribute to the
+The callerframe decorator adds a __caller_frame__ global attribute to the
 decorated function's globals; this attribute refers to a FrameInfo object
 containing information about the caller function:
 
  * frame: the caller's frame;
  * filename: the name of the file where the function has been called;
- * line_number: the line number of the call in <filename>;
+ * line_number: the line number of the call in filename;
  * function_name: the name of the caller function;
  * context: a list of source line containing the call;
- * index: the index of the line in <context> where the function has been called.
+ * index: the index of the line in context where the function has been called.
 
 >>> @callerframe
 ... def log(kind, message):
@@ -57,7 +57,8 @@ error: function error: lost connection
 
 This is correct, since error() is the direct caller of the log() function;
 nevertheless we would like to show the information about the error()'s caller
-instead. In this case it is possible to decorate error() too:
+instead. In this case it is possible to decorate error() too (no modification is
+needed in log):
 
 >>> @callerframe
 ... def error(message):
