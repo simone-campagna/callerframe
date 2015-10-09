@@ -99,12 +99,12 @@ if __name__ == "__main__":
             #   3 - Alpha
             #   4 - Beta
             #   5 - Production/Stable
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             # audience:
             'Intended Audience :: Developers',
-            'Topic :: Software Development :: Build Tools',
+            'Topic :: Software Development :: Libraries :: Python Modules',
             # license:
-            'License :: OSI Approved :: Apple Public Source License',
+            'License :: OSI Approved :: Apache Software License',
             # language:
             'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 2.7',
